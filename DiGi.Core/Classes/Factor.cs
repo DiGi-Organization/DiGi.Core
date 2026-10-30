@@ -39,12 +39,16 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Factor struct from a JsonObject.
+        /// Initializes a new instance of the Factor struct from a JsonObject, reading its <c>Value</c> node and clamping it between 0 and 1.
+        /// <para>The node is read here rather than through <see cref="Modify.FromJsonObject(ISerializableObject?, JsonObject?)"/>, which would populate a boxed copy of this readonly struct and leave the value <see cref="double.NaN"/>.</para>
         /// </summary>
-        /// <param name="jsonObject">The JSON object containing the factor value.</param>
+        /// <param name="jsonObject">The JSON object containing the factor value; a missing or unreadable <c>Value</c> yields <see cref="double.NaN"/>.</param>
         public Factor(JsonObject? jsonObject)
         {
-            FromJsonObject(jsonObject);
+            if (jsonObject != null && jsonObject.TryGetPropertyValue("Value", out JsonNode? jsonNode) && jsonNode != null && Query.TryConvert_Double(jsonNode, out double? value_JsonNode) && value_JsonNode != null)
+            {
+                value = double.IsNaN(value_JsonNode.Value) ? double.NaN : Query.Clamp(value_JsonNode.Value, 0, 1);
+            }
         }
 
         /// <summary>
@@ -89,13 +93,13 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Populates the factor's value from a JsonObject.
+        /// Does nothing: a readonly struct cannot be populated in place. Construct a new factor with <see cref="Factor(JsonObject?)"/> instead.
         /// </summary>
-        /// <param name="jsonObject">The JSON object containing the data.</param>
-        /// <returns>True if successful; otherwise, false.</returns>
+        /// <param name="jsonObject">The JSON object containing the data; ignored.</param>
+        /// <returns>Always false.</returns>
         public bool FromJsonObject(JsonObject? jsonObject)
         {
-            return Modify.FromJsonObject(this, jsonObject);
+            return false;
         }
 
         /// <summary>

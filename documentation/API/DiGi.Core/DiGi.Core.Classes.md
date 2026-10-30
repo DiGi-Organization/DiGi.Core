@@ -17601,7 +17601,9 @@ The factor value\.
 
 ## Factor\(JsonObject\) Constructor
 
-Initializes a new instance of the Factor struct from a JsonObject\.
+Initializes a new instance of the Factor struct from a JsonObject, reading its `Value` node and clamping it between 0 and 1\.
+
+The node is read here rather than through [FromJsonObject\(this ISerializableObject, JsonObject\)](DiGi.Core.md#DiGi.Core.Modify.FromJsonObject(thisDiGi.Core.Interfaces.ISerializableObject,System.Text.Json.Nodes.JsonObject) 'DiGi\.Core\.Modify\.FromJsonObject\(this DiGi\.Core\.Interfaces\.ISerializableObject, System\.Text\.Json\.Nodes\.JsonObject\)'), which would populate a boxed copy of this readonly struct and leave the value [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN').
 
 ```csharp
 public Factor(System.Text.Json.Nodes.JsonObject? jsonObject);
@@ -17612,7 +17614,7 @@ public Factor(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
-The JSON object containing the factor value\.
+The JSON object containing the factor value; a missing or unreadable `Value` yields [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN')\.
 ### Methods
 
 <a name='DiGi.Core.Classes.Factor.Clone()'></a>
@@ -17635,7 +17637,7 @@ A new Factor instance with the same value\.
 
 ## Factor\.FromJsonObject\(JsonObject\) Method
 
-Populates the factor's value from a JsonObject\.
+Does nothing: a readonly struct cannot be populated in place\. Construct a new factor with [Factor\(JsonObject\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Factor.Factor(System.Text.Json.Nodes.JsonObject) 'DiGi\.Core\.Classes\.Factor\.Factor\(System\.Text\.Json\.Nodes\.JsonObject\)') instead\.
 
 ```csharp
 public bool FromJsonObject(System.Text.Json.Nodes.JsonObject? jsonObject);
@@ -17646,13 +17648,13 @@ public bool FromJsonObject(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
-The JSON object containing the data\.
+The JSON object containing the data; ignored\.
 
 Implements [FromJsonObject\(JsonObject\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject.FromJsonObject(System.Text.Json.Nodes.JsonObject) 'DiGi\.Core\.Interfaces\.ISerializableObject\.FromJsonObject\(System\.Text\.Json\.Nodes\.JsonObject\)')
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-True if successful; otherwise, false\.
+Always false\.
 
 <a name='DiGi.Core.Classes.Factor.ToJsonObject()'></a>
 
