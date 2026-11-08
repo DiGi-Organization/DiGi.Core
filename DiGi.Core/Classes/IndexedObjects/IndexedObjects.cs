@@ -234,7 +234,7 @@ namespace DiGi.Core.Classes
                 return result;
             }
 
-            if (jsonObject.TryGetPropertyValue("Values", out JsonNode? jsonNode) && jsonNode != null)
+            if (jsonObject.TryGetPropertyValue(nameof(Values), out JsonNode? jsonNode) && jsonNode != null)
             {
                 JsonArray jsonArray = jsonNode.AsArray();
                 foreach (JsonNode? jsonNode_Temp in jsonArray)
@@ -434,7 +434,7 @@ namespace DiGi.Core.Classes
                     jsonArray.Add(jsonObject_Temp);
                 }
 
-                result["Values"] = jsonArray;
+                result[nameof(Values)] = jsonArray;
             }
 
             return result;
@@ -448,13 +448,13 @@ namespace DiGi.Core.Classes
         /// <returns>True if the element was found; otherwise, false.</returns>
         public bool TryGetValue(int index, out T? result)
         {
-            if (!sortedDictionary.ContainsKey(index))
+            if (!sortedDictionary.TryGetValue(index, out T? value))
             {
                 result = default;
                 return false;
             }
 
-            result = sortedDictionary[index];
+            result = value;
             return true;
         }
     }

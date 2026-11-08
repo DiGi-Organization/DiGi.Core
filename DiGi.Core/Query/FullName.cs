@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 
 namespace DiGi.Core
@@ -16,7 +17,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            return string.Format("{0}:{1}", FullTypeName(@enum.GetType()), @enum.ToString());
+            return string.Format(CultureInfo.CurrentCulture, "{0}:{1}", FullTypeName(@enum.GetType()), @enum.ToString());
         }
     }
 }

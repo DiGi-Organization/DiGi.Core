@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Parameter.Enums;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DiGi.Core.Parameter.Classes
 {
@@ -7,13 +8,14 @@ namespace DiGi.Core.Parameter.Classes
     /// Contains metadata and properties for a parameter definition.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Public attribute applied across the workspace by this name; renaming is a breaking change.")]
     public class ParameterProperties : Attribute
     {
         private readonly AccessType accessType = AccessType.ReadWrite;
-        private readonly string? description = null;
-        private readonly string? groupName = null;
-        private readonly string? name = null;
-        private readonly string? uniqueId = null;
+        private readonly string? description;
+        private readonly string? groupName;
+        private readonly string? name;
+        private readonly string? uniqueId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier and name.

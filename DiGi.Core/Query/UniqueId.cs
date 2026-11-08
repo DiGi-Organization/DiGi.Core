@@ -20,7 +20,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return UniqueHash(value).ToString();
+            return UniqueHash(value).ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return UniqueHash(value).ToString();
+            return UniqueHash(value).ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace DiGi.Core
                     return uniqueId;
                 }
             }
-            return UniqueHash(value).ToString();
+            return UniqueHash(value).ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace DiGi.Core.Parameter
                 return null;
             }
 
-            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
+            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Length != 0)
             {
                 return descriptionAttributes[0].Description;
             }

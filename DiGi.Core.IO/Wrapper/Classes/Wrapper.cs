@@ -718,7 +718,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             SetMetadata(wrapperMetadata);
         }
 
-        private IEnumerable<IWrapperUniqueReference?>? Write(IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences)
+        private List<IWrapperUniqueReference?>? Write(IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences)
         {
             if (wrapperUniqueReferences == null)
             {
@@ -770,7 +770,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperItems.ConvertAll(x => Create.WrapperUniqueReference(x.UniqueReference));
         }
 
-        private IEnumerable<IWrapperUniqueReference>? Write(IEnumerable<WrapperTypeReference>? wrapperTypeReferences)
+        private HashSet<IWrapperUniqueReference>? Write(IEnumerable<WrapperTypeReference>? wrapperTypeReferences)
         {
             if (wrapperTypeReferences == null)
             {

@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -34,6 +35,7 @@ namespace DiGi.Core
         /// </summary>
         /// <param name="string"></param>
         /// <returns>Unique Guid</returns>
+        [SuppressMessage("Security", "CA5350:Do Not Use Weak Cryptographic Algorithms", Justification = "Not security: a deterministic name-based Guid; another algorithm would change every stored identifier.")]
         public static Guid Guid(this string? @string)
         {
             if (@string == null)

@@ -19,7 +19,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Stores any exception that occurred during task execution.
         /// </summary>
-        protected Exception? exception = null;
+        protected Exception? exception;
 
         /// <summary>
         /// Measures the execution time of the task.
@@ -29,7 +29,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Indicates whether the task is currently running.
         /// </summary>
-        private bool isRunning = false;
+        private bool isRunning;
 
         /// <summary>
         /// Indicates whether the last task execution succeeded.

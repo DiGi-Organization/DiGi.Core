@@ -28,7 +28,7 @@ namespace DiGi.Core
 
             FieldInfo fieldInfo = type.GetField(@enum!.ToString());
 
-            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
+            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Length != 0)
             {
                 return descriptionAttributes[0].Description;
             }
@@ -54,7 +54,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            if (type.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
+            if (type.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Length != 0)
             {
                 return descriptionAttributes[0].Description;
             }

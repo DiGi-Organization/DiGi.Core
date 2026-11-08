@@ -33,7 +33,18 @@ namespace DiGi.Core
             memoryStream.Position = 0;
             using (GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress))
             {
-                gZipStream.Read(buffer, 0, buffer.Length);
+                // A single Read may return fewer bytes than asked for (CA2022) - read until the buffer is full or the stream ends.
+                int count = 0;
+                while (count < buffer.Length)
+                {
+                    int count_Read = gZipStream.Read(buffer, count, buffer.Length - count);
+                    if (count_Read == 0)
+                    {
+                        break;
+                    }
+
+                    count += count_Read;
+                }
             }
 
             return Encoding.UTF8.GetString(buffer);

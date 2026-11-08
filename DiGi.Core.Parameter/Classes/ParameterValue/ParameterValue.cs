@@ -1,6 +1,7 @@
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -10,6 +11,7 @@ namespace DiGi.Core.Parameter.Classes
     /// Base class for all parameter value types.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Serialized base type used across the workspace by this name; renaming is a breaking change.")]
     public abstract class ParameterValue : Attribute, ISerializableObject
     {
         [JsonInclude, JsonPropertyName(nameof(Nullable))]

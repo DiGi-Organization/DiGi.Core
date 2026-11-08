@@ -1,5 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -83,6 +85,7 @@ namespace DiGi.Core.Classes
         /// Gets the character used to separate segments in the path.
         /// </summary>
         [JsonIgnore]
+        [SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "Public member reached as ObjectPath<T>.Separator across the workspace; moving it is a breaking change.")]
         public static string Separator { get; } = "->";
 
         /// <summary>
@@ -230,7 +233,7 @@ namespace DiGi.Core.Classes
         public override string ToString()
         {
             string result = Name ?? string.Empty;
-            result = string.Format("\"{0}\"", result.Replace("\"", "\"\""));
+            result = string.Format(CultureInfo.CurrentCulture, "\"{0}\"", result.Replace("\"", "\"\""));
             if (path != null)
             {
                 result += Separator + path.ToString();

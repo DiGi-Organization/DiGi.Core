@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -389,7 +390,7 @@ namespace DiGi.Core.Classes
         /// <returns>A string that represents the current range.</returns>
         public override string ToString()
         {
-            return string.Format("[{0}, {1}]", min, max);
+            return string.Format(CultureInfo.CurrentCulture, "[{0}, {1}]", min, max);
         }
     }
 }

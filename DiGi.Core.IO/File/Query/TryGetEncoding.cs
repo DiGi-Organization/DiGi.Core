@@ -31,7 +31,19 @@ namespace DiGi.Core.IO.File
                 {
                     using FileStream reader = new(filePath, FileMode.Open, FileAccess.Read);
                     byte[] bom = new byte[4];
-                    reader.Read(bom, 0, 4);
+
+                    // A single Read may return fewer bytes than asked for (CA2022); a shorter file leaves the rest zero.
+                    int count = 0;
+                    while (count < bom.Length)
+                    {
+                        int count_Read = reader.Read(bom, count, bom.Length - count);
+                        if (count_Read == 0)
+                        {
+                            break;
+                        }
+
+                        count += count_Read;
+                    }
 
                     // Check BOM
 

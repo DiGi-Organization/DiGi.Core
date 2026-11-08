@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -117,7 +118,7 @@ namespace DiGi.Core.Classes
         /// <returns>The numeric value as a string.</returns>
         public override string ToString()
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

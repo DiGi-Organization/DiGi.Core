@@ -1,5 +1,6 @@
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
+using System.Globalization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -363,7 +364,7 @@ namespace DiGi.Core
                 }
 
                 // Avoid ToUpper() to reduce allocations. Use OrdinalIgnoreCase.
-                if (string.Equals(@string, "1") ||
+                if (string.Equals(@string, "1", StringComparison.Ordinal) ||
                     string.Equals(@string, "YES", StringComparison.OrdinalIgnoreCase) ||
                     string.Equals(@string, "TRUE", StringComparison.OrdinalIgnoreCase))
                 {
@@ -376,7 +377,7 @@ namespace DiGi.Core
 
             if (IsNumeric(@object))
             {
-                result = System.Convert.ToInt64(@object) == 1;
+                result = System.Convert.ToInt64(@object, CultureInfo.CurrentCulture) == 1;
                 return true;
             }
 
@@ -450,7 +451,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToByte(@object);
+                result = System.Convert.ToByte(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -513,7 +514,7 @@ namespace DiGi.Core
 
             if (@object is string @string)
             {
-                if (@string.StartsWith("##"))
+                if (@string.StartsWith("##", StringComparison.CurrentCulture))
                 {
                     result = Convert.ToDrawing(@string);
                     if (!result.Equals(System.Drawing.Color.Empty))
@@ -593,7 +594,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object));
+                result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object, CultureInfo.CurrentCulture));
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -604,7 +605,7 @@ namespace DiGi.Core
                         // Using ToString() is safer as it provides the string representation
                         // without the strict type-checking constraints of GetValue<string>()
                         string text = jsonNode.ToString();
-                        if (text.StartsWith("\"") && text.EndsWith("\""))
+                        if (text.StartsWith("\"", StringComparison.CurrentCulture) && text.EndsWith("\"", StringComparison.CurrentCulture))
                         {
                             text = text.Substring(1, text.Length - 2);
                         }
@@ -689,7 +690,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object) && @object is not System.Type)
             {
-                result = System.Convert.ToDecimal(@object);
+                result = System.Convert.ToDecimal(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is bool @bool)
@@ -778,7 +779,7 @@ namespace DiGi.Core
 
             if (IsNumeric(@object) && @object is not System.Type)
             {
-                result = System.Convert.ToDouble(@object);
+                result = System.Convert.ToDouble(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -899,7 +900,7 @@ namespace DiGi.Core
             {
                 if (TryConvert_Long(@object, out long? long_Numeric) && long_Numeric is not null)
                 {
-                    return TryGetEnum(long_Numeric.Value.ToString(), type_Underlying, out result);
+                    return TryGetEnum(long_Numeric.Value.ToString(CultureInfo.CurrentCulture), type_Underlying, out result);
                 }
             }
 
@@ -1016,7 +1017,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object) && @object is not System.Type)
             {
-                result = System.Convert.ToSingle(@object);
+                result = System.Convert.ToSingle(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is bool @bool)
@@ -1137,13 +1138,13 @@ namespace DiGi.Core
 
             if (@object is Enum @enum)
             {
-                result = System.Convert.ToInt32(@enum);
+                result = System.Convert.ToInt32(@enum, CultureInfo.CurrentCulture);
                 return true;
             }
 
             if (IsNumeric(@object))
             {
-                result = System.Convert.ToInt32(@object);
+                result = System.Convert.ToInt32(@object, CultureInfo.CurrentCulture);
                 return true;
             }
 
@@ -1235,12 +1236,12 @@ namespace DiGi.Core
             }
             else if (@object is Enum @enum)
             {
-                result = System.Convert.ToInt64(@enum);
+                result = System.Convert.ToInt64(@enum, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToInt64(@object);
+                result = System.Convert.ToInt64(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -1470,7 +1471,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToInt16(@object);
+                result = System.Convert.ToInt16(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -1691,7 +1692,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToUInt32(@object);
+                result = System.Convert.ToUInt32(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is Classes.Color color)
@@ -1767,7 +1768,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToUInt64(@object);
+                result = System.Convert.ToUInt64(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is Enum)
@@ -1843,7 +1844,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToUInt16(@object);
+                result = System.Convert.ToUInt16(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)
@@ -1948,7 +1949,7 @@ namespace DiGi.Core
                         return true;
                     }
 
-                    long long_Val = System.Convert.ToInt64(@object);
+                    long long_Val = System.Convert.ToInt64(@object, CultureInfo.CurrentCulture);
                     if (long_Val >= -62135596800L && long_Val <= 253402300799L)
                     {
                         result = DateTimeOffset.FromUnixTimeSeconds(long_Val);
@@ -1984,7 +1985,7 @@ namespace DiGi.Core
                         }
 
                         string text = jsonNode.ToString();
-                        if (text.StartsWith("\"") && text.EndsWith("\"") && text.Length >= 2)
+                        if (text.StartsWith("\"", StringComparison.CurrentCulture) && text.EndsWith("\"", StringComparison.CurrentCulture) && text.Length >= 2)
                         {
                             text = text.Substring(1, text.Length - 2);
                         }
@@ -2090,7 +2091,7 @@ namespace DiGi.Core
             }
             else if (IsNumeric(@object))
             {
-                result = System.Convert.ToSByte(@object);
+                result = System.Convert.ToSByte(@object, CultureInfo.CurrentCulture);
                 return true;
             }
             else if (@object is JsonNode jsonNode)

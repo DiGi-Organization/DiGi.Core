@@ -216,9 +216,9 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            if (jsonObject.ContainsKey("Enum"))
+            if (jsonObject.ContainsKey(nameof(Enum)))
             {
-                Core.Query.TryGetEnum(jsonObject["Enum"]?.GetValue<string>(), out @enum);
+                Core.Query.TryGetEnum(jsonObject[nameof(Enum)]?.GetValue<string>(), out @enum);
                 bool_IsCached = false;
             }
 
@@ -234,7 +234,7 @@ namespace DiGi.Core.Parameter.Classes
             JsonObject result = new()
             {
                 { Core.Constants.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
-                { "Enum", Core.Query.FullName(@enum) }
+                { nameof(Enum), Core.Query.FullName(@enum) }
             };
 
             return result;

@@ -170,7 +170,7 @@ namespace DiGi.Core.IO.File.Classes
 
                 foreach (ZipArchiveEntry zipArchiveEntry in zipArchiveEntries)
                 {
-                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values, StringComparison.CurrentCulture))
                     {
                         continue;
                     }
@@ -191,10 +191,7 @@ namespace DiGi.Core.IO.File.Classes
             {
                 foreach (UniqueReference uniqueReference in dictionary.Keys)
                 {
-                    if (!result.Contains(uniqueReference))
-                    {
-                        result.Add(uniqueReference);
-                    }
+                    result.Add(uniqueReference);
                 }
             }
 
@@ -775,7 +772,7 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        private IEnumerable<TSerializableObject?>? GetValues()
+        private List<TSerializableObject?>? GetValues()
         {
             List<TSerializableObject?>? result = Pull();
             dictionary ??= [];
@@ -863,7 +860,7 @@ namespace DiGi.Core.IO.File.Classes
                         {
                             ZipArchiveEntry ZipArchiveEntry = zipArchiveEntries_Temp[i];
 
-                            if (ZipArchiveEntry == null || !ZipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
+                            if (ZipArchiveEntry == null || !ZipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values, StringComparison.CurrentCulture))
                             {
                                 zipArchiveEntries_Temp.RemoveAt(i);
                             }
@@ -1015,7 +1012,7 @@ namespace DiGi.Core.IO.File.Classes
                 {
                     ZipArchiveEntry zipArchiveEntry = zipArchiveEntries[i];
 
-                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values, StringComparison.CurrentCulture))
                     {
                         continue;
                     }

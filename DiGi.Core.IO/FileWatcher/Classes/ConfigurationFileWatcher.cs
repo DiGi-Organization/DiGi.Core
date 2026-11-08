@@ -8,8 +8,8 @@ namespace DiGi.Core.IO.FileWatcher.Classes
     /// </summary>
     public class ConfigurationFileWatcher : FileWatcher
     {
-        private ConfigurationFile? configurationFile = null;
-        private Encoding? encoding = null;
+        private ConfigurationFile? configurationFile;
+        private Encoding? encoding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationFileWatcher"/> class.

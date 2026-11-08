@@ -18,23 +18,23 @@ namespace DiGi.Core.IO
             }
 
             string relativeTo_Temp = relativeTo!.Trim();
-            if (relativeTo_Temp.EndsWith("\\"))
+            if (relativeTo_Temp.EndsWith("\\", StringComparison.CurrentCulture))
             {
                 relativeTo_Temp = relativeTo_Temp.Substring(0, relativeTo_Temp.Length - 1);
             }
 
             string path_Temp = path!.Trim();
-            if (path_Temp.EndsWith("\\"))
+            if (path_Temp.EndsWith("\\", StringComparison.CurrentCulture))
             {
                 path_Temp = path_Temp.Substring(0, path_Temp.Length - 1);
             }
 
-            if (relativeTo_Temp.Equals(path_Temp))
+            if (relativeTo_Temp.Equals(path_Temp, StringComparison.Ordinal))
             {
                 return ".";
             }
 
-            Uri uri_RelativeTo = new(relativeTo.EndsWith("\\") ? relativeTo : relativeTo + "\\");
+            Uri uri_RelativeTo = new(relativeTo.EndsWith("\\", StringComparison.CurrentCulture) ? relativeTo : relativeTo + "\\");
             Uri uri = new(path_Temp);
 
             return Uri.UnescapeDataString(uri_RelativeTo.MakeRelativeUri(uri).ToString().Replace('/', '\\'));

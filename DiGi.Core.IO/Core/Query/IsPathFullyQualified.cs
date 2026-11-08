@@ -17,7 +17,7 @@ namespace DiGi.Core.IO
                 return false;
             }
 
-            return root.StartsWith(@"\\") || root.EndsWith(@"\") && root != @"\";
+            return root.StartsWith(@"\\", StringComparison.CurrentCulture) || root.EndsWith(@"\", StringComparison.CurrentCulture) && root != @"\";
         }
     }
 }

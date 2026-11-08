@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace DiGi.Core.IO.DelimitedData
@@ -36,7 +37,7 @@ namespace DiGi.Core.IO.DelimitedData
                 }
                 else if (value.IndexOfAny(['"', separator, '\n']) != -1)
                 {
-                    stringBuilder.AppendFormat("\"{0}\"", value.Replace("\"", "\"\""));
+                    stringBuilder.AppendFormat(CultureInfo.CurrentCulture, "\"{0}\"", value.Replace("\"", "\"\""));
                 }
                 else
                 {

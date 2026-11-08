@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -71,7 +72,7 @@ namespace DiGi.Core
                 for (int i = 0; i < fieldInfos.Length; i++)
                 {
                     FieldInfo fieldInfo = fieldInfos[i];
-                    long fieldValue = System.Convert.ToInt64(fieldInfo.GetRawConstantValue());
+                    long fieldValue = System.Convert.ToInt64(fieldInfo.GetRawConstantValue(), CultureInfo.CurrentCulture);
                     if (fieldValue == numericValue)
                     {
                         @enum = (Enum)fieldInfo.GetValue(null)!;

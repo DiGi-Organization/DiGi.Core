@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace DiGi.Core.Classes
     public abstract class Splitter<T, X> where X : struct, IComparable, IConvertible
     {
         // Keep track of the iteration state
-        private int index = 0;
+        private int index;
 
         private List<T>? items;
 
@@ -60,12 +61,12 @@ namespace DiGi.Core.Classes
 
             List<T> currentValues = [];
             double currentSize = 0;
-            double maxValue_Temp = System.Convert.ToDouble(maxValue);
+            double maxValue_Temp = System.Convert.ToDouble(maxValue, CultureInfo.CurrentCulture);
 
             while (index < items.Count)
             {
                 T item = items[index];
-                double itemSize = System.Convert.ToDouble(GetValue(item));
+                double itemSize = System.Convert.ToDouble(GetValue(item), CultureInfo.CurrentCulture);
 
                 if (currentSize + itemSize > maxValue_Temp && currentValues.Count > 0)
                 {

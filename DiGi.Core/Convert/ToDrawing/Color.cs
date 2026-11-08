@@ -56,7 +56,7 @@ namespace DiGi.Core
             }
 
             // 2. Try Hex Parsing
-            if (clean.StartsWith("#"))
+            if (clean.StartsWith("#", StringComparison.CurrentCulture))
             {
                 string hex = clean.Substring(1);
 

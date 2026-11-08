@@ -213,12 +213,12 @@ namespace DiGi.Core.Classes
 
             if (array == null)
             {
-                throw new System.ArgumentNullException("array");
+                throw new System.ArgumentNullException(nameof(array));
             }
 
             if (arrayIndex < 0)
             {
-                throw new System.ArgumentOutOfRangeException("arrayIndex");
+                throw new System.ArgumentOutOfRangeException(nameof(arrayIndex));
             }
 
             if (array.Length - arrayIndex < values.Count)

@@ -21,6 +21,6 @@
         public bool CheckAccessType { get; set; } = true;
 
         /// <summary>Gets or sets a value indicating whether to attempt conversion of the value during retrieval.</summary>
-        public bool TryConvert { get; set; } = false;
+        public bool TryConvert { get; set; }
     }
 }

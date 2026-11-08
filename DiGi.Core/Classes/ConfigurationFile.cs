@@ -112,7 +112,7 @@ namespace DiGi.Core.Classes
                 return Remove(name);
             }
 
-            dictionary[name.Trim()] = string.Format("\"{0}\"", value);
+            dictionary[name.Trim()] = string.Format(CultureInfo.CurrentCulture, "\"{0}\"", value);
             return true;
         }
 
@@ -162,7 +162,7 @@ namespace DiGi.Core.Classes
                 return Remove(name);
             }
 
-            dictionary[name.Trim()] = value.ToString();
+            dictionary[name.Trim()] = (value?.ToString(CultureInfo.CurrentCulture) ?? string.Empty);
             return true;
         }
 
@@ -207,7 +207,7 @@ namespace DiGi.Core.Classes
             bool result = dictionary.ContainsKey(name_Temp);
             if (!caseSensitive)
             {
-                return dictionary.TryGetFirstKey(name_Temp, out _, x => x?.ToUpper());
+                return dictionary.TryGetFirstKey(name_Temp, out _, x => x?.ToUpper(CultureInfo.CurrentCulture));
             }
 
             return result;
@@ -301,7 +301,7 @@ namespace DiGi.Core.Classes
 
             foreach (string line in lines)
             {
-                int index = line.IndexOf("=");
+                int index = line.IndexOf("=", StringComparison.CurrentCulture);
                 if (index == -1)
                 {
                     continue;
@@ -310,7 +310,7 @@ namespace DiGi.Core.Classes
                 string name = line.Substring(0, index);
                 string text = line.Substring(index + 1);
 
-                if (text.StartsWith("\"") && text.EndsWith("\""))
+                if (text.StartsWith("\"", StringComparison.CurrentCulture) && text.EndsWith("\"", StringComparison.CurrentCulture))
                 {
                     text = text.Substring(1, text.Length - 2);
                 }
@@ -365,7 +365,7 @@ namespace DiGi.Core.Classes
                     return false;
                 }
 
-                if (!dictionary.TryGetFirstKey(name_Temp, out string? key, x => x?.ToUpper()) || string.IsNullOrWhiteSpace(key))
+                if (!dictionary.TryGetFirstKey(name_Temp, out string? key, x => x?.ToUpper(CultureInfo.CurrentCulture)) || string.IsNullOrWhiteSpace(key))
                 {
                     return false;
                 }
@@ -376,7 +376,7 @@ namespace DiGi.Core.Classes
                 }
             }
 
-            if (text.StartsWith("\"") && text.EndsWith("\""))
+            if (text.StartsWith("\"", StringComparison.CurrentCulture) && text.EndsWith("\"", StringComparison.CurrentCulture))
             {
                 text = text.Substring(1, text.Length - 2);
             }
@@ -405,7 +405,7 @@ namespace DiGi.Core.Classes
             List<string> lines = [];
             foreach (KeyValuePair<string, string> keyValuePair in dictionary)
             {
-                lines.Add(string.Format("{0}={1}", keyValuePair.Key, keyValuePair.Value));
+                lines.Add(string.Format(CultureInfo.CurrentCulture, "{0}={1}", keyValuePair.Key, keyValuePair.Value));
             }
 
             System.IO.File.WriteAllLines(path, lines);

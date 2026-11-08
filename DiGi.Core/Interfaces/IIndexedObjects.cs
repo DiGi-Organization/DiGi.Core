@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DiGi.Core.Interfaces
 {
     /// <summary>Defines a contract for an object that contains a collection of indexed objects.</summary>
+    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Public interface implemented across the workspace; renaming is a breaking change.")]
+    [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "The generic contract is IIndexedObjects<T>; this non-generic base is deliberate.")]
     public interface IIndexedObjects : IObject, IEnumerable
     {
     }

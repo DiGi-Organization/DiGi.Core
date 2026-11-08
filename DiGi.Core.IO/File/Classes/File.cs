@@ -18,7 +18,7 @@ namespace DiGi.Core.IO.File.Classes
     /// </summary>
     public abstract class File : SerializableObject, IFile
     {
-        private bool disposed = false;
+        private bool disposed;
 
         [JsonInclude, JsonPropertyName(nameof(MetadataStorage)), Description("MetadataStorage")]
         private MetadataStorage metadataStorage = new();
@@ -93,6 +93,7 @@ namespace DiGi.Core.IO.File.Classes
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

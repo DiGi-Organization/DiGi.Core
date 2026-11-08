@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -53,7 +54,7 @@ namespace DiGi.Core
                     List<string> values_Temp = [.. names];
                     values_Temp.RemoveAt(values_Temp.Count - 1);
 
-                    string typeName_Temp = string.Format("{0},{1}", typeName, string.Join(".", values_Temp));
+                    string typeName_Temp = string.Format(CultureInfo.CurrentCulture, "{0},{1}", typeName, string.Join(".", values_Temp));
                     result = System.Type.GetType(typeName_Temp, false, ignoreCase);
                 }
 
@@ -69,8 +70,8 @@ namespace DiGi.Core
                 {
                     if (ignoreCase)
                     {
-                        typeName_Temp = typeName_Temp!.ToUpper();
-                        assemblyName = assemblyName!.ToUpper();
+                        typeName_Temp = typeName_Temp!.ToUpper(CultureInfo.CurrentCulture);
+                        assemblyName = assemblyName!.ToUpper(CultureInfo.CurrentCulture);
                     }
 
                     Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -86,10 +87,10 @@ namespace DiGi.Core
 
                             if (ignoreCase)
                             {
-                                assemblyName_Temp = assemblyName_Temp.ToUpper();
+                                assemblyName_Temp = assemblyName_Temp.ToUpper(CultureInfo.CurrentCulture);
                             }
 
-                            if (!assemblyName!.Equals(assemblyName_Temp))
+                            if (!assemblyName!.Equals(assemblyName_Temp, StringComparison.Ordinal))
                             {
                                 continue;
                             }
@@ -107,16 +108,16 @@ namespace DiGi.Core
 
                                     if (ignoreCase)
                                     {
-                                        typeName_Temp_Temp = typeName_Temp_Temp!.ToUpper();
+                                        typeName_Temp_Temp = typeName_Temp_Temp!.ToUpper(CultureInfo.CurrentCulture);
                                     }
 
-                                    if (typeName_Temp!.Equals(typeName_Temp_Temp))
+                                    if (typeName_Temp!.Equals(typeName_Temp_Temp, StringComparison.Ordinal))
                                     {
                                         result = type;
                                         break;
                                     }
 
-                                    if (typeName_Temp.Equals(string.Format("{0}.{1}", assemblyName, typeName_Temp_Temp)))
+                                    if (typeName_Temp.Equals(string.Format(CultureInfo.CurrentCulture, "{0}.{1}", assemblyName, typeName_Temp_Temp), StringComparison.Ordinal))
                                     {
                                         result = type;
                                         break;
@@ -154,7 +155,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            string typeName_Temp = ignoreCase ? typeName!.ToLower() : typeName!;
+            string typeName_Temp = ignoreCase ? typeName!.ToLower(CultureInfo.CurrentCulture) : typeName!;
 
             foreach (Assembly assembly in assemblies)
             {
@@ -182,13 +183,13 @@ namespace DiGi.Core
                 {
                     string name;
 
-                    name = ignoreCase ? type.FullName.ToLower() : type.FullName;
+                    name = ignoreCase ? type.FullName.ToLower(CultureInfo.CurrentCulture) : type.FullName;
                     if (Compare(name, typeName_Temp, textComparisonType))
                     {
                         return type;
                     }
 
-                    name = ignoreCase ? type.Name.ToLower() : type.Name;
+                    name = ignoreCase ? type.Name.ToLower(CultureInfo.CurrentCulture) : type.Name;
                     if (Compare(name, typeName_Temp, textComparisonType))
                     {
                         return type;

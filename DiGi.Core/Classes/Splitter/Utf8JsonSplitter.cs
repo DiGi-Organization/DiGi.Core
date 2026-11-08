@@ -19,11 +19,11 @@ namespace DiGi.Core.Classes
 
         private readonly List<TSerializableObject>? serializableObjects;
 
-        private int index = 0;
+        private int index;
 
-        private bool hasPending = false;
-        private byte[]? pendingUtf8Json = null;
-        private TSerializableObject? pendingSerializableObject = default;
+        private bool hasPending;
+        private byte[]? pendingUtf8Json;
+        private TSerializableObject? pendingSerializableObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Utf8JsonSplitter{TSerializableObject}"/> class with the specified objects.

@@ -2,6 +2,7 @@ using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Interfaces;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -93,7 +94,7 @@ namespace DiGi.Core.IO.Classes
         /// <returns>True if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
-            return ToString().Equals((obj as FileFilter)?.ToString());
+            return ToString().Equals((obj as FileFilter)?.ToString(), StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -121,11 +122,11 @@ namespace DiGi.Core.IO.Classes
                         continue;
                     }
 
-                    values.Add(string.Format("*.{0}", extension));
+                    values.Add(string.Format(CultureInfo.CurrentCulture, "*.{0}", extension));
                 }
             }
 
-            return string.Format("{0} ({1})|{1}", name ?? string.Empty, string.Join(";", values));
+            return string.Format(CultureInfo.CurrentCulture, "{0} ({1})|{1}", name ?? string.Empty, string.Join(";", values));
         }
     }
 }

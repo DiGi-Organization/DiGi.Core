@@ -1,6 +1,7 @@
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Provides a base class for background tasks that can be canceled during execution.
     /// </summary>
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "The token source exists only for one run: Start disposes the previous one and Cleanup disposes it when the run ends.")]
     public abstract class CancelableBackgroundTask : BackgroundTask, ICancelableBackgroundTask
     {
         /// <summary>
@@ -19,7 +21,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Indicates whether the last run was cancelled through this task's own source.
         /// </summary>
-        private bool isCanceled = false;
+        private bool isCanceled;
 
         /// <summary>
         /// Occurs when the task has been canceled.

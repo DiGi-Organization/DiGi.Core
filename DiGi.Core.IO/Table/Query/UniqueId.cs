@@ -1,4 +1,5 @@
 using DiGi.Core.IO.Table.Interfaces;
+using System.Globalization;
 
 namespace DiGi.Core.IO
 {
@@ -16,7 +17,7 @@ namespace DiGi.Core.IO
                 return null;
             }
 
-            return name.ToLower().Trim().Replace(" ", "_").Replace("[", "").Replace("]", "").Replace(".", "_").Replace(",", "_");
+            return name.ToLower(CultureInfo.CurrentCulture).Trim().Replace(" ", "_").Replace("[", "").Replace("]", "").Replace(".", "_").Replace(",", "_");
         }
     }
 }

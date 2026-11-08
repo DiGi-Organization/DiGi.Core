@@ -16,13 +16,13 @@
             }
 
             string directory_Temp = directory!.Trim();
-            if (directory_Temp.EndsWith("\\"))
+            if (directory_Temp.EndsWith("\\", StringComparison.CurrentCulture))
             {
                 directory_Temp = directory_Temp.Substring(0, directory_Temp.Length - 1);
             }
 
             string relativePath_Temp = relativePath!.Trim();
-            if (relativePath_Temp.EndsWith("\\"))
+            if (relativePath_Temp.EndsWith("\\", StringComparison.CurrentCulture))
             {
                 relativePath_Temp = relativePath_Temp.Substring(0, relativePath_Temp.Length - 1);
             }

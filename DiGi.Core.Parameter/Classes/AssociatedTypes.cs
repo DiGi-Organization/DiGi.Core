@@ -1,6 +1,7 @@
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -8,6 +9,9 @@ using System.Text.Json.Serialization;
 namespace DiGi.Core.Parameter.Classes
 {
     /// <summary>Defines a set of types associated with an enum value.</summary>
+    [AttributeUsage(AttributeTargets.All)]
+    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Serialized type: its name is the _type discriminator of stored JSON.")]
+    [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "Serialized type: an added IEnumerable<T> would change how the DiGi serializer writes it.")]
     public class AssociatedTypes : Attribute, IEnumerable, ISerializableObject
     {
         [JsonInclude, JsonPropertyName(nameof(Types))]

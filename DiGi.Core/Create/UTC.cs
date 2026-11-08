@@ -1,4 +1,5 @@
 using DiGi.Core.Enums;
+using System.Globalization;
 
 namespace DiGi.Core
 {
@@ -44,7 +45,7 @@ namespace DiGi.Core
                 return Enums.UTC.Undefined;
             }
 
-            if (Enums.UTC.Undefined.ToString().ToUpper().Equals(value.ToUpper().Trim()))
+            if (Enums.UTC.Undefined.ToString().ToUpper(CultureInfo.CurrentCulture).Equals(value.ToUpper(CultureInfo.CurrentCulture).Trim(), StringComparison.Ordinal))
             {
                 return Enums.UTC.Undefined;
             }

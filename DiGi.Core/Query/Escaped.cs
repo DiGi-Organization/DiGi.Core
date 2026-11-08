@@ -37,7 +37,7 @@ namespace DiGi.Core
                     || @char == Constants.Reference.NestingStart[0]
                     || @char == Constants.Reference.NestingEnd[0])
                 {
-                    stringBuilder.Append(Constants.Reference.Escape);
+                    stringBuilder.Append(Constants.Reference.Escape[0]);
                 }
 
                 stringBuilder.Append(@char);

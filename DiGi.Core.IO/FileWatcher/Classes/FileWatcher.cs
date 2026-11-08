@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace DiGi.Core.IO.FileWatcher.Classes
 {
@@ -77,6 +78,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         {
             timer?.Stop();
             timer?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             return targetEncoding.GetString(bytes);
         }
 
-        private byte[]? ComputeHash(byte[]? data)
+        private static byte[]? ComputeHash(byte[]? data)
         {
             if (data == null)
             {
@@ -119,7 +121,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             return sha256.ComputeHash(data);
         }
 
-        private bool HashesMatch(byte[]? hash_1, byte[]? hash_2)
+        private static bool HashesMatch(byte[]? hash_1, byte[]? hash_2)
         {
             if (hash_1 == null || hash_2 == null)
             {
@@ -180,7 +182,19 @@ namespace DiGi.Core.IO.FileWatcher.Classes
                 using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
                 byte[] buffer = new byte[fileStream.Length];
-                fileStream.Read(buffer, 0, (int)fileStream.Length);
+
+                // A single Read may return fewer bytes than asked for (CA2022) - read until the buffer is full or the file ends.
+                int count = 0;
+                while (count < buffer.Length)
+                {
+                    int count_Read = fileStream.Read(buffer, count, buffer.Length - count);
+                    if (count_Read == 0)
+                    {
+                        break;
+                    }
+
+                    count += count_Read;
+                }
 
                 return buffer;
             }

@@ -26,10 +26,10 @@ namespace DiGi.Core
             }
             else
             {
-                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(typeof(T));
+                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor<T>();
             }
 
-            serializationConstructor ??= Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
+            serializationConstructor ??= Settings.SerializationManager.GetSerializationConstructor<SerializableObjectWrapper>();
 
             if (serializationConstructor == null)
             {
