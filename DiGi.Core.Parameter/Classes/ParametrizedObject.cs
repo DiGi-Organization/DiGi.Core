@@ -74,9 +74,17 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a deep copy of the parametrized object.
         /// </summary>
+        /// <remarks>
+        /// A <see cref="ParametrizedObject"/> itself is copied member by member with its parameters cloned, which is a deep copy only because it holds nothing else. Any derived type is copied by the JSON round trip of <see cref="SerializableObject.Clone"/>: a member-by-member copy would share every field it adds - a <c>BuildingModel</c> clone shared its relation cluster with its source (DiGi-Organization/DiGi.Core#14).
+        /// </remarks>
         /// <returns>A new cloned instance of the parametrized object.</returns>
         public override ISerializableObject? Clone()
         {
+            if (GetType() != typeof(ParametrizedObject))
+            {
+                return base.Clone();
+            }
+
             ParametrizedObject parametrizedObject = (ParametrizedObject)MemberwiseClone();
             parametrizedObject.parameterGroupCollection = (ParameterGroupCollection)parameterGroupCollection.Clone()!;
             return parametrizedObject;

@@ -494,7 +494,9 @@ namespace DiGi.Core
             switch (jsonValueKind)
             {
                 case System.Text.Json.JsonValueKind.String:
-                    value = jsonNode.GetValue<string>();
+                    // CLR-backed (clone) leg: a node built from a boxed Guid, DateTime, ... has kind String but holds no
+                    // string, so GetValue<string>() throws - read its JSON text instead, exactly as the text leg would.
+                    value = jsonNode.AsValue().TryGetValue(out string? string_Value) ? string_Value : JsonNode.Parse(jsonNode.ToJsonString())!.GetValue<string>();
                     break;
 
                 case System.Text.Json.JsonValueKind.True:

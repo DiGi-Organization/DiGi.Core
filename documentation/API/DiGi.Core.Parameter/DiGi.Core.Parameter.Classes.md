@@ -4439,6 +4439,9 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A new cloned instance of the parametrized object\.
 
+### Remarks
+A [ParametrizedObject](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject') itself is copied member by member with its parameters cloned, which is a deep copy only because it holds nothing else\. Any derived type is copied by the JSON round trip of [DiGi\.Core\.Classes\.SerializableObject\.Clone](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject.clone 'DiGi\.Core\.Classes\.SerializableObject\.Clone'): a member\-by\-member copy would share every field it adds \- a `BuildingModel` clone shared its relation cluster with its source \(DiGi\-Organization/DiGi\.Core\#14\)\.
+
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Contains(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 
 ## ParametrizedObject\.Contains\(IParameterDefinition\) Method
