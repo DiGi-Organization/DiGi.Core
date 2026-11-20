@@ -586,6 +586,22 @@ The unique reference to check for\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the storage contains an object associated with the specified unique reference; otherwise, false\.
 
+<a name='DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.GetUndecodableEntryNames()'></a>
+
+## StorageFile\<TSerializableObject\>\.GetUndecodableEntryNames\(\) Method
+
+Gets the names of the value entries of the file whose name does not decode to a unique reference \- entries written in a former reference format\.
+
+Such an entry is skipped by [GetUniqueReferences\(\)](DiGi.Core.IO.File.Classes.md#DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.GetUniqueReferences() 'DiGi\.Core\.IO\.File\.Classes\.StorageFile\<TSerializableObject\>\.GetUniqueReferences\(\)'), [Count](DiGi.Core.IO.File.Classes.md#DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.Count 'DiGi\.Core\.IO\.File\.Classes\.StorageFile\<TSerializableObject\>\.Count') and every value read, so a reader sees the file as partly or wholly empty; [Save\(\)](DiGi.Core.IO.File.Classes.md#DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.Save() 'DiGi\.Core\.IO\.File\.Classes\.StorageFile\<TSerializableObject\>\.Save\(\)') refuses a file holding one (DiGi-Organization/DiGi.GIS.PostgreSQL#149).
+
+```csharp
+public System.Collections.Generic.List<string>? GetUndecodableEntryNames();
+```
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The full names of the undecodable value entries, empty when every entry decodes; null when the file does not exist\.
+
 <a name='DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.GetUniqueReference(TSerializableObject)'></a>
 
 ## StorageFile\<TSerializableObject\>\.GetUniqueReference\(TSerializableObject\) Method
@@ -964,6 +980,8 @@ The unique reference of the removed object, or null if no object satisfied the c
 ## StorageFile\<TSerializableObject\>\.Save\(\) Method
 
 Saves the current state of the storage file to disk\.
+
+Refuses - writes nothing and returns false - when the file holds a value entry whose name does not decode to a unique reference ([GetUndecodableEntryNames\(\)](DiGi.Core.IO.File.Classes.md#DiGi.Core.IO.File.Classes.StorageFile_TSerializableObject_.GetUndecodableEntryNames() 'DiGi\.Core\.IO\.File\.Classes\.StorageFile\<TSerializableObject\>\.GetUndecodableEntryNames\(\)')): such an entry, written in a former reference format, is invisible to every reader, and saving beside it would leave two copies of the same values (DiGi-Organization/DiGi.GIS.PostgreSQL#149).
 
 ```csharp
 public override bool Save();

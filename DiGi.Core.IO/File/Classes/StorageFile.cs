@@ -144,6 +144,39 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
+        /// Gets the names of the value entries of the file whose name does not decode to a unique reference - entries written in a former reference format.
+        /// <para>Such an entry is skipped by <see cref="GetUniqueReferences"/>, <see cref="Count"/> and every value read, so a reader sees the file as partly or wholly empty; <see cref="Save"/> refuses a file holding one (DiGi-Organization/DiGi.GIS.PostgreSQL#149).</para>
+        /// </summary>
+        /// <returns>The full names of the undecodable value entries, empty when every entry decodes; null when the file does not exist.</returns>
+        public List<string>? GetUndecodableEntryNames()
+        {
+            string? path = Path;
+            if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
+            {
+                return null;
+            }
+
+            List<string> result = [];
+            using (ZipArchive zipArchive = ZipFile.OpenRead(path))
+            {
+                foreach (ZipArchiveEntry zipArchiveEntry in zipArchive.Entries)
+                {
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values, StringComparison.CurrentCulture))
+                    {
+                        continue;
+                    }
+
+                    if (Query.Decode(zipArchiveEntry.Name) is null)
+                    {
+                        result.Add(zipArchiveEntry.FullName);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets a set of all unique references stored in the file.
         /// </summary>
         /// <returns>A hash set containing all unique references stored in the file, or null.</returns>
@@ -631,10 +664,19 @@ namespace DiGi.Core.IO.File.Classes
 
         /// <summary>
         /// Saves the current state of the storage file to disk.
+        /// <para>Refuses - writes nothing and returns false - when the file holds a value entry whose name does not decode to a unique reference (<see cref="GetUndecodableEntryNames"/>): such an entry, written in a former reference format, is invisible to every reader, and saving beside it would leave two copies of the same values (DiGi-Organization/DiGi.GIS.PostgreSQL#149).</para>
         /// </summary>
         /// <returns>True if the save operation was successful; otherwise, false.</returns>
         public override bool Save()
         {
+            // An entry this file cannot key would stay beside the entries written now: a second, stale copy of the
+            // values no reader sees. Nothing is written - not even the metadata - until the file is migrated.
+            List<string>? undecodableEntryNames = GetUndecodableEntryNames();
+            if (undecodableEntryNames != null && undecodableEntryNames.Count != 0)
+            {
+                return false;
+            }
+
             bool result = base.Save();
             if (!result)
             {
